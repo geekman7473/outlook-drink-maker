@@ -133,7 +133,9 @@
           drink: MENU.drinks.find(drink => drink.name === currentMakeName)
         })
       });
+      
       closeModal();
+      window.location.href = '/drink_in_progress';
      
     });
 
