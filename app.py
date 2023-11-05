@@ -11,7 +11,7 @@ from flask import render_template
 import asyncio
 import json
 
-arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1)
+arduino = serial.Serial(port='COM6', baudrate=115200, timeout=.1)
 
 # numbers for drinks in liquor holders
 vodka = 1
@@ -27,11 +27,11 @@ lime_juice = 10
 
 
 #numbers for mixers in pumps
-coke = 103
+coke = 101
 ginger_ale = 102
-orange_juice = 101
-club_soda = 104
-cranberry = 106
+#orange_juice = 101
+club_soda = 106
+cranberry = 104
 
 
 recipes = {
@@ -50,7 +50,7 @@ recipes = {
     "Whiskey Sour": [(whiskey, 2), (lemon_juice, 1), (simple_syrup, 1)],
     "White Lady": [(gin, 2), (triple_sec, 1), (lemon_juice, 1)],
     "Vodka Cran": [(vodka, 2), (cranberry, 100)],
-    "Screwdriver": [(vodka, 2), (orange_juice, 90)],
+    #"Screwdriver": [(vodka, 2), (orange_juice, 90)],
     "Ginger Highball": [(whiskey, 2), (lemon_juice, 1), (simple_syrup, 1), (club_soda, 100)],
     "DO NOT ORDER" : [(coke, 50), (ginger_ale, 50), (orange_juice, 50), (club_soda, 50), (cranberry, 50)]
 }
@@ -58,7 +58,7 @@ recipes = {
 # do __name__.split('.')[0] if initialising from a file not at project root
 app = flask.Flask(__name__, static_url_path='/static')
 # app.debug = True
-app.config['SERVER_NAME'] = 'localhost:8080'  # Replace with your actual domain name
+app.config['SERVER_NAME'] = '192.168.0.27:8080'  # Replace with your actual domain name
 app.config['APPLICATION_ROOT'] = '/'  # Replace with your application root
 app.config['PREFERRED_URL_SCHEME'] = 'http'  # Replace with your preferred URL scheme (http or https)
 
@@ -274,12 +274,12 @@ with app.app_context():
                 "ingredients": ["60 vodka", "90 cranberry juice"],
                 "image": url_for('static', filename='images/vodka_cran.jpg')
             },
-            {
-                "name": "Screwdriver",
-                "description": "Uncomplicated yet satisfying, the Screwdriver cocktail is a classic combination of vodka and orange juice. This simple drink is perfect for brunch or any casual gathering. Served over ice and garnished with an orange slice, it's a go-to choice for those seeking a refreshing and straightforward beverage.",
-                "ingredients": ["60 vodka", "90 orange juice"],
-                "image": url_for('static', filename='images/screwdriver.jpg')
-            },
+            #{
+            #    "name": "Screwdriver",
+            #    "description": "Uncomplicated yet satisfying, the Screwdriver cocktail is a classic combination of vodka and orange juice. This simple drink is perfect for brunch or any casual gathering. Served over ice and garnished with an orange slice, it's a go-to choice for those seeking a refreshing and straightforward beverage.",
+            #    "ingredients": ["60 vodka", "90 orange juice"],
+            #    "image": url_for('static', filename='images/screwdriver.jpg')
+            #},
             {
                 "name": "Ginger Highball",
                 "description": "The Ginger Highball is a delightful whiskey-based cocktail that offers a perfect balance of flavors. It combines whiskey, zesty lemon juice, and a touch of simple syrup. Topped with club soda, it delivers a refreshing and invigorating experience that whiskey enthusiasts will appreciate.",
@@ -291,4 +291,4 @@ with app.app_context():
     }
 
 if __name__ == "__main__":
-    app.run("localhost", "8080")
+    app.run(host='0.0.0.0', port=8080)
