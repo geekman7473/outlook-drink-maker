@@ -11,7 +11,7 @@ from flask import render_template
 import asyncio
 import json
 
-arduino = serial.Serial(port='COM6', baudrate=115200, timeout=.1)
+arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1)
 
 # numbers for drinks in liquor holders
 vodka = 1
@@ -28,10 +28,10 @@ lime_juice = 10
 
 #numbers for mixers in pumps
 coke = 101
-ginger_ale = 102
+ginger_ale = 103
 #orange_juice = 101
-club_soda = 106
-cranberry = 104
+club_soda = 104
+cranberry = 106
 
 
 recipes = {
@@ -39,7 +39,7 @@ recipes = {
     "Dark & Stormy": [(dark_rum, 2), (ginger_ale, 100), (lime_juice, 1)],
     "Tom Collins": [(gin, 2), (club_soda, 100), (simple_syrup, 1), (lemon_juice, 1)],
     "Moscow Mule": [(vodka, 2), (ginger_ale, 100), (lime_juice, 1)],
-    "Cosmo": [(vodka, 2), (cranberry, 60), (lime_juice, 1), (triple_sec, 1)],
+    #"Cosmo": [(vodka, 2), (cranberry, 60), (lime_juice, 1), (triple_sec, 1)],
     #"Tequila Sunrise": [(tequila, 2), (grenadine, 15), (orange_juice, 90)],
     "Daiquiri": [(white_rum, 2), (lime_juice, 1), (simple_syrup, 1)],
     "Margarita": [(tequila, 2), (triple_sec, 1), (lime_juice, 1), (simple_syrup, 1)],
@@ -49,10 +49,10 @@ recipes = {
     "Gin Fizz": [(gin, 2), (lemon_juice, 1), (club_soda, 100), (simple_syrup, 1)],
     "Whiskey Sour": [(whiskey, 2), (lemon_juice, 1), (simple_syrup, 1)],
     "White Lady": [(gin, 2), (triple_sec, 1), (lemon_juice, 1)],
-    "Vodka Cran": [(vodka, 2), (cranberry, 100)],
+    #"Vodka Cran": [(vodka, 2), (cranberry, 100)],
     #"Screwdriver": [(vodka, 2), (orange_juice, 90)],
     "Ginger Highball": [(whiskey, 2), (lemon_juice, 1), (simple_syrup, 1), (club_soda, 100)],
-    "DO NOT ORDER" : [(coke, 50), (ginger_ale, 50), (orange_juice, 50), (club_soda, 50), (cranberry, 50)]
+    "DO NOT ORDER" : [(coke, 50), (ginger_ale, 50), (club_soda, 50), (cranberry, 50)]
 }
 
 # do __name__.split('.')[0] if initialising from a file not at project root
@@ -115,7 +115,7 @@ def index():
     return render("index.html", context)
 
 def write_to_arduino(x):
-    x = "FOO " + x
+    #x = "FOO " + x
     arduino.write(bytes(x, 'utf-8'))
     arduino.flushInput()
     response = ""
@@ -214,12 +214,12 @@ with app.app_context():
                 "ingredients": ["60 vodka", "ginger ale", "15 lime"],
                 "image": url_for('static', filename='images/moscow_mule.jpg')
             },
-            {
-                "name": "Cosmo",
-                "description": "Step into the glamorous world of mixology with the Cosmopolitan. Made with vodka, cranberry juice, freshly squeezed lime juice, and a touch of triple sec, this cocktail is sophisticated and tangy. It's a perfect choice for those who appreciate a balance of flavors and a hint of citrus.",
-                "ingredients": ["60 vodka", "30 cranberry juice", "15 lime juice", "15 triple sec"],
-                "image": url_for('static', filename='images/cosmo.jpg')
-            },
+            #{
+            #    "name": "Cosmo",
+            #    "description": "Step into the glamorous world of mixology with the Cosmopolitan. Made with vodka, cranberry juice, freshly squeezed lime juice, and a touch of triple sec, this cocktail is sophisticated and tangy. It's a perfect choice for those who appreciate a balance of flavors and a hint of citrus.",
+            #    "ingredients": ["60 vodka", "30 cranberry juice", "15 lime juice", "15 triple sec"],
+            #    "image": url_for('static', filename='images/cosmo.jpg')
+            #},
             {
                 "name": "Daiquiri",
                 "description": "Savor the simplicity of a Daiquiri. Made with white rum, freshly squeezed lime juice, and a touch of simple syrup, this cocktail is a timeless favorite. It offers a perfect balance of sweetness and tartness, making it a go-to choice for rum enthusiasts.",
@@ -268,12 +268,12 @@ with app.app_context():
                 "ingredients": ["60 gin", "30 triple sec", "30 lemon"],
                 "image": url_for('static', filename='images/white_lady.jpg')
             },
-            {
-                "name": "Vodka Cran",
-                "description": "Embrace the bright and fruity flavors of a Vodka Cranberry cocktail. Combining vodka and cranberry juice, this refreshing drink offers a perfect blend of tartness and sweetness. Served over ice and garnished with a slice of lime, it's a popular choice for those who enjoy a vibrant and easy-to-sip cocktail.",
-                "ingredients": ["60 vodka", "90 cranberry juice"],
-                "image": url_for('static', filename='images/vodka_cran.jpg')
-            },
+            #{
+            #    "name": "Vodka Cran",
+            #    "description": "Embrace the bright and fruity flavors of a Vodka Cranberry cocktail. Combining vodka and cranberry juice, this refreshing drink offers a perfect blend of tartness and sweetness. Served over ice and garnished with a slice of lime, it's a popular choice for those who enjoy a vibrant and easy-to-sip cocktail.",
+            #    "ingredients": ["60 vodka", "90 cranberry juice"],
+            #    "image": url_for('static', filename='images/vodka_cran.jpg')
+            #},
             #{
             #    "name": "Screwdriver",
             #    "description": "Uncomplicated yet satisfying, the Screwdriver cocktail is a classic combination of vodka and orange juice. This simple drink is perfect for brunch or any casual gathering. Served over ice and garnished with an orange slice, it's a go-to choice for those seeking a refreshing and straightforward beverage.",
